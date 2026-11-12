@@ -15,15 +15,15 @@ next to official aviation weather (SIGMETs, PIREPs, METAR/TAF).
 
 ## Status
 
-Pre-alpha. Ingest, storage and a first detector work; there is no API or map yet.
+Pre-alpha. Ingest, storage, a first detector and the API work; there is no map yet.
 
 | Milestone | What | State |
 |---|---|---|
 | M0 | Data spike: is the public data dense enough? | done: [findings](docs/m0-data-spike.md) |
 | M1 | Ingest + storage + replay mode | done |
 | M2 | Roughness detector, calibrated against PIREPs | done: [method and results](docs/method.md) |
-| M3 | H3 aggregation + API | next |
-| M4 | Live map | |
+| M3 | H3 aggregation + API | done: [API reference](docs/api.md) |
+| M4 | Live map | next |
 | M5 | Weather + airport cards | |
 | M6 | Accuracy page + launch | |
 
@@ -35,16 +35,24 @@ You need Docker. The first run pulls a database image of about 4 GB.
 docker compose --profile demo up --build
 ```
 
-This starts Postgres (TimescaleDB + PostGIS + h3), creates the schema, and
+This starts Postgres (TimescaleDB + PostGIS + h3), creates the schema,
 replays a bundled sample of 50 real flights from 11 Nov 2026 (25 over India,
-25 over the US), re-timed so they end "now". No internet or API keys needed
-once the images exist. Look at the data:
+25 over the US) re-timed so they end "now", runs the detector over them, and
+serves the result. No internet or API keys needed once the images exist.
+
+- API docs: http://localhost:8000/docs
+- Hex cells for the last hour:
 
 ```bash
-docker compose exec db psql -U aerokym -d aerokym -c "select count(*), count(distinct icao24), min(time), max(time) from positions"
+curl "http://localhost:8000/api/cells?minutes=60"
 ```
 
-Live mode polls OpenSky for all of India about every 96 seconds. Copy
+With only 50 aircraft, most demo cells rest on a single aircraft and carry
+low confidence. That is the sample size, not the method.
+
+Live mode polls OpenSky for all of India about every 96 seconds. That feed is
+too sparse for the detector (it needs a sample about every 20 seconds), so live
+mode stores positions but produces no roughness cells yet. Copy
 `.env.example` to `.env`, add your OpenSky API client id and secret, then:
 
 ```bash
