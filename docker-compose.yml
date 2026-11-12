@@ -1,0 +1,66 @@
+# Aerokym local stack.
+#
+#   docker compose --profile demo up     offline demo: database + schema + replay of the bundled sample
+#   docker compose --profile live up     live: database + schema + OpenSky poller (needs .env)
+#   docker compose up                    database + schema only
+#
+# Copy .env.example to .env for live mode. Demo mode needs no keys and no internet
+# (after the images have been built once).
+
+name: aerokym
+
+services:
+  db:
+    # One image that ships TimescaleDB, PostGIS and h3 together, so there is
+    # nothing to compile. It is large (about 4 GB); the first pull takes a while.
+    image: timescale/timescaledb-ha:pg16
+    environment:
+      POSTGRES_USER: aerokym
+      POSTGRES_PASSWORD: aerokym   # local development only; change for any deployment
+      POSTGRES_DB: aerokym
+    ports:
+      - "127.0.0.1:5432:5432"      # reachable from this machine only
+    volumes:
+      - pgdata:/home/postgres/pgdata
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U aerokym -d aerokym"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+
+  migrate:
+    build: ./backend
+    command: python -m aerokym.db.migrate
+    environment: &backend_env
+      AEROKYM_DATABASE_URL: postgresql://aerokym:aerokym@db:5432/aerokym
+      PYTHONUNBUFFERED: "1"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  replay:
+    profiles: ["demo"]
+    build: ./backend
+    command: python -m aerokym.ingest.replay /data/demo/traces.tar.gz --shift-to-now
+    environment: *backend_env
+    volumes:
+      - ./data:/data:ro
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+
+  opensky:
+    profiles: ["live"]
+    build: ./backend
+    command: python -m aerokym.ingest.opensky
+    environment: *backend_env
+    env_file:
+      - path: .env
+        required: false
+    restart: unless-stopped
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+
+volumes:
+  pgdata:

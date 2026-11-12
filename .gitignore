@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+# Node
+node_modules/
+.next/
+# Local data (raw spike captures, replay days) - never commit raw feeds
+data/spike/
+data/demo/*.jsonl
+.env
