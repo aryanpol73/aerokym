@@ -24,6 +24,10 @@ class Settings:
     # Credits we allow ourselves per day. Registered accounts get 4,000; we
     # stay below that so manual testing never pushes the account over.
     opensky_daily_credits: int
+    # adsb.lol: optional key (sent as x-api-key) and our self-imposed daily budget.
+    # 500/day without a key, 1,000 with a free adhoc key; stay a little below.
+    adsblol_api_key: str
+    adsblol_daily_requests: int
 
 
 def get_settings() -> Settings:
@@ -40,4 +44,6 @@ def get_settings() -> Settings:
         opensky_client_secret=env("OPENSKY_CLIENT_SECRET", ""),
         opensky_bbox=bbox,  # type: ignore[arg-type]
         opensky_daily_credits=int(env("OPENSKY_DAILY_CREDITS", "3600")),
+        adsblol_api_key=env("ADSBLOL_API_KEY", ""),
+        adsblol_daily_requests=int(env("ADSBLOL_DAILY_REQUESTS", "450")),
     )

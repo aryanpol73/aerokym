@@ -1,0 +1,87 @@
+:root {
+  --bg: #ffffff;
+  --ink: #111827;
+  --muted: #5b6472;
+  --line: #d9dee5;
+  --accent: #1f4e79;
+  --panel: rgba(255, 255, 255, 0.96);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; color: var(--ink); background: var(--bg); }
+a { color: var(--accent); }
+
+.shell { position: relative; height: 100dvh; display: flex; flex-direction: column; }
+.topbar {
+  display: flex; align-items: baseline; gap: 12px; padding: 10px 16px;
+  border-bottom: 1px solid var(--line); background: var(--bg); z-index: 3;
+}
+.topbar h1 { margin: 0; font-size: 18px; letter-spacing: 0.02em; }
+.tagline { color: var(--muted); font-size: 13px; flex: 1; min-width: 0;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.topbar nav { font-size: 14px; white-space: nowrap; }
+
+.map { flex: 1; min-height: 0; }
+
+.panel {
+  position: absolute; z-index: 2; background: var(--panel); border: 1px solid var(--line);
+  border-radius: 10px; padding: 12px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08); font-size: 13px;
+}
+.controls { top: 58px; left: 12px; width: 250px; }
+.details { top: 58px; right: 12px; width: 290px; max-height: calc(100dvh - 130px); overflow: auto; }
+
+fieldset { border: 0; padding: 0; margin: 0 0 10px; }
+legend { padding: 0; margin-bottom: 4px; color: var(--muted); font-size: 12px; }
+.seg { display: flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.seg button {
+  flex: 1; min-height: 36px; padding: 6px 4px; border: 0; border-right: 1px solid var(--line);
+  background: transparent; color: var(--ink); font: inherit; cursor: pointer;
+}
+.seg button:last-child { border-right: 0; }
+.seg button[aria-pressed="true"] { background: var(--accent); color: #fff; }
+.seg button:focus-visible, .close:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+.legend { border-top: 1px solid var(--line); padding-top: 10px; }
+.legend-row { display: flex; align-items: center; gap: 8px; padding: 2px 0; }
+.legend-row .count { margin-left: auto; color: var(--muted); font-variant-numeric: tabular-nums; }
+.swatch { display: inline-block; width: 12px; height: 12px; border-radius: 3px; flex: none;
+  border: 1px solid rgba(0, 0, 0, 0.25); }
+.hint, .muted { color: var(--muted); }
+.hint { margin: 6px 0 0; font-size: 12px; }
+.status { margin: 10px 0 0; color: var(--muted); font-size: 12px; }
+.error { color: #b42318; }
+
+.details h2 { margin: 0 24px 8px 0; font-size: 16px; display: flex; align-items: center; gap: 8px; }
+.details h3 { margin: 12px 0 6px; font-size: 13px; }
+.details dl { display: grid; grid-template-columns: auto 1fr; gap: 4px 12px; margin: 0; }
+.details dt { color: var(--muted); }
+.details dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; }
+.close { position: absolute; top: 6px; right: 6px; width: 32px; height: 32px; border: 0;
+  background: transparent; font-size: 22px; line-height: 1; cursor: pointer; color: var(--muted); }
+.events { list-style: none; margin: 0; padding: 0; }
+.events li { display: flex; align-items: center; gap: 8px; padding: 3px 0; font-size: 12px; }
+.events .muted { margin-left: auto; }
+
+.disclaimer { padding: 8px 16px; border-top: 1px solid var(--line); background: #fff8e6;
+  font-size: 12px; z-index: 3; }
+
+.prose { max-width: 680px; margin: 0 auto; padding: 24px 16px 48px; line-height: 1.6; }
+.prose h1 { font-size: 26px; margin-bottom: 4px; }
+.prose h2 { font-size: 18px; margin-top: 28px; }
+.prose .warn { background: #fff8e6; border: 1px solid #e9d38a; border-radius: 8px; padding: 12px 14px; }
+.prose table { border-collapse: collapse; width: 100%; font-size: 14px; }
+.prose th, .prose td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--line); }
+
+/* Phones: filters become a compact strip under the top bar, details a bottom sheet. */
+@media (max-width: 720px) {
+  .tagline { display: none; }
+  .topbar nav { margin-left: auto; }
+  .controls { top: 52px; left: 8px; right: 8px; width: auto; padding: 8px; }
+  .controls fieldset { margin-bottom: 6px; }
+  .seg button { min-height: 44px; }
+  .controls legend { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .legend { display: flex; flex-wrap: wrap; gap: 4px 12px; padding-top: 6px; }
+  .legend-row .count, .legend .hint { display: none; }
+  .status { margin-top: 6px; }
+  .details { top: auto; left: 8px; right: 8px; bottom: 60px; width: auto; max-height: 45dvh; }
+}

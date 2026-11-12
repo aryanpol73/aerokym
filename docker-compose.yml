@@ -1,8 +1,8 @@
 # Aerokym local stack.
 #
-#   docker compose --profile demo up     offline demo: database + schema + replay + detector + API
+#   docker compose --profile demo up     offline demo: database + schema + replay + detector + API + map
 #   docker compose --profile live up     live: database + schema + OpenSky poller (needs .env)
-#   docker compose up                    database + schema + API only
+#   docker compose up                    database + schema + API + map (no data)
 #
 # Copy .env.example to .env for live mode. Demo mode needs no keys and no internet
 # (after the images have been built once).
@@ -41,7 +41,7 @@ services:
   replay:
     profiles: ["demo"]
     build: ./backend
-    command: python -m aerokym.ingest.replay /data/demo/traces.tar.gz --shift-to-now
+    command: python -m aerokym.ingest.replay /data/demo/traces.tar.gz --shift-to-now --reset
     environment: *backend_env
     volumes:
       - ./data:/data:ro
@@ -73,6 +73,14 @@ services:
       migrate:
         condition: service_completed_successfully
 
+  web:
+    build: ./web
+    ports:
+      - "127.0.0.1:3000:3000"      # the map: http://localhost:3000
+    restart: unless-stopped
+    depends_on:
+      - api
+
   detect:
     # Demo: run the detector once over the replayed day, then exit.
     profiles: ["demo"]
@@ -81,6 +89,20 @@ services:
     environment: *backend_env
     depends_on:
       replay:
+        condition: service_completed_successfully
+
+  adsblol:
+    # Live: spend the adsb.lol budget on dense traces of aircraft OpenSky sees in cruise.
+    profiles: ["live"]
+    build: ./backend
+    command: python -m aerokym.ingest.adsblol
+    environment: *backend_env
+    env_file:
+      - path: .env
+        required: false
+    restart: unless-stopped
+    depends_on:
+      migrate:
         condition: service_completed_successfully
 
   detect-live:

@@ -11,7 +11,7 @@ from datetime import UTC, datetime, timedelta
 import httpx
 import pytest
 
-from aerokym.ingest import opensky
+from aerokym.ingest import adsblol, opensky
 from aerokym.ingest.replay import day_shift, keep, positions_from_docs
 from aerokym.ingest.trace import ChainedReader, decode_trace, iter_trace_docs, parse_trace_bytes
 
@@ -186,3 +186,40 @@ def test_client_refreshes_token_on_401_and_raises_on_429():
 def test_client_requires_credentials():
     with pytest.raises(ValueError):
         opensky.OpenSkyClient("", "")
+
+
+# adsb.lol trace sampler -------------------------------------------------------
+
+def test_adsblol_interval_and_cruise_filter():
+    assert adsblol.request_interval_s(900) == pytest.approx(96.0)
+    assert adsblol.request_interval_s(10**9) == 5.0
+    rows = adsblol.cruise_positions(DOC)
+    assert len(rows) == 2 and all(p.baro_alt_ft >= adsblol.MIN_ALT_FT for p in rows)
+
+
+def test_adsblol_client_sends_key_and_handles_statuses():
+    seen = []
+
+    def handler(req: httpx.Request) -> httpx.Response:
+        seen.append((req.url.path, req.headers.get("x-api-key")))
+        if req.url.path.endswith("/missing"):
+            return httpx.Response(404)
+        if req.url.path.endswith("/limited"):
+            return httpx.Response(429, headers={"Retry-After": "77"})
+        if req.url.path.endswith("/blocked"):
+            return httpx.Response(403, text="blocked")
+        return httpx.Response(200, json=DOC, headers={"x-ratelimit-remaining": "998"})
+
+    http = httpx.Client(transport=httpx.MockTransport(handler))
+    c = adsblol.AdsbLolClient("KEY", http)
+    assert c.fetch_trace("ab0998", "recent")["icao"] == "AB0998" and c.remaining == "998"
+    assert seen[0] == ("/1/trace/recent/ab0998", "KEY")
+    assert c.fetch_trace("missing", "full") is None
+    with pytest.raises(opensky.RateLimited) as e:
+        c.fetch_trace("limited", "full")
+    assert e.value.retry_after_s == 77
+    with pytest.raises(httpx.HTTPStatusError):
+        c.fetch_trace("blocked", "full")
+    adsblol.AdsbLolClient("", http).fetch_trace("ab0998", "full")
+    assert seen[-1][0] == "/1/trace/full/ab0998"
+    assert seen[-1][1] is None  # no header when there is no key
