@@ -69,13 +69,25 @@ def upsert_aircraft(conn, docs: list[dict]) -> None:
     conn.commit()
 
 
-def load(sources: list[Path], bbox: BBox | None, min_alt_ft: int, shift_to_now: bool) -> int:
+def reset(conn) -> None:
+    """Empty the tables a replay fills. Demo mode re-times the day to "now" on
+    every start, so without this each restart would add a second, shifted copy."""
+    conn.execute("TRUNCATE positions, turb_events, trace_fetches")
+    conn.commit()
+
+
+def load(
+    sources: list[Path], bbox: BBox | None, min_alt_ft: int, shift_to_now: bool,
+    do_reset: bool = False,
+) -> int:
     t0 = time.time()
     total = n_aircraft = 0
     batch: list[Position] = []
     meta: list[dict] = []
     with connect_with_retry(get_settings().database_url) as conn:
         disable_retention(conn)
+        if do_reset:
+            reset(conn)
 
         def flush() -> None:
             nonlocal total
@@ -108,9 +120,11 @@ def main() -> None:
                          "Kept below cruise so the detector can see climbs and descents.")
     ap.add_argument("--shift-to-now", action="store_true",
                     help="re-time the day so it ends now (demo mode)")
+    ap.add_argument("--reset", action="store_true",
+                    help="delete all stored positions and events first (demo mode)")
     a = ap.parse_args()
     bbox = tuple(float(x) for x in a.bbox.split(",")) if a.bbox else None
-    load(a.sources, bbox, a.min_alt_ft, a.shift_to_now)  # type: ignore[arg-type]
+    load(a.sources, bbox, a.min_alt_ft, a.shift_to_now, a.reset)  # type: ignore[arg-type]
 
 
 if __name__ == "__main__":

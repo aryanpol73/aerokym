@@ -15,7 +15,8 @@ next to official aviation weather (SIGMETs, PIREPs, METAR/TAF).
 
 ## Status
 
-Pre-alpha. Ingest, storage, a first detector and the API work; there is no map yet.
+Pre-alpha. Ingest, storage, a first detector, the API and the map work on replayed data.
+Live mode is built but has not been run end to end yet.
 
 | Milestone | What | State |
 |---|---|---|
@@ -23,8 +24,8 @@ Pre-alpha. Ingest, storage, a first detector and the API work; there is no map y
 | M1 | Ingest + storage + replay mode | done |
 | M2 | Roughness detector, calibrated against PIREPs | done: [method and results](docs/method.md) |
 | M3 | H3 aggregation + API | done: [API reference](docs/api.md) |
-| M4 | Live map | next |
-| M5 | Weather + airport cards | |
+| M4 | Live map | done (demo data); live feed untested |
+| M5 | Weather + airport cards | next |
 | M6 | Accuracy page + launch | |
 
 ## Quickstart
@@ -40,6 +41,7 @@ replays a bundled sample of 50 real flights from 11 Nov 2026 (25 over India,
 25 over the US) re-timed so they end "now", runs the detector over them, and
 serves the result. No internet or API keys needed once the images exist.
 
+- Map: http://localhost:3000
 - API docs: http://localhost:8000/docs
 - Hex cells for the last hour:
 
@@ -50,10 +52,14 @@ curl "http://localhost:8000/api/cells?minutes=60"
 With only 50 aircraft, most demo cells rest on a single aircraft and carry
 low confidence. That is the sample size, not the method.
 
-Live mode polls OpenSky for all of India about every 96 seconds. That feed is
-too sparse for the detector (it needs a sample about every 20 seconds), so live
-mode stores positions but produces no roughness cells yet. Copy
-`.env.example` to `.env`, add your OpenSky API client id and secret, then:
+Live mode uses two sources together. OpenSky says which aircraft are in cruise
+over India (one request covers the country, about every 96 seconds). adsb.lol
+then supplies a dense trace for one of those aircraft at a time, two requests
+each. On a free adsb.lol key (1,000 requests a day) that is about 19 aircraft
+an hour, so the live map is a thin sample of the traffic.
+
+Copy `.env.example` to `.env`, add your OpenSky client id and secret and,
+if you have one, your adsb.lol key, then:
 
 ```bash
 docker compose --profile live up --build
@@ -63,6 +69,12 @@ Run the tests:
 
 ```bash
 cd backend && pip install -e ".[dev]" && pytest -q
+```
+
+Work on the map with hot reload (needs the API running):
+
+```bash
+cd web && npm install && npm run dev
 ```
 
 ## How detection works
@@ -103,6 +115,8 @@ numbers comes in M6.
   databases published by Aerokym are share-alike under the same licence.
 - Weather: [aviationweather.gov](https://aviationweather.gov/data/api/) Data
   API (US government, public domain).
+- Aircraft presence in live mode: [OpenSky Network](https://opensky-network.org).
+- Basemap: © OpenStreetMap contributors, served by [OpenFreeMap](https://openfreemap.org).
 - Airports and runways: [OurAirports](https://ourairports.com/data/) (public
   domain).
 
