@@ -1,8 +1,8 @@
 # Aerokym local stack.
 #
-#   docker compose --profile demo up     offline demo: database + schema + replay of the bundled sample
+#   docker compose --profile demo up     offline demo: database + schema + replay + detector + API
 #   docker compose --profile live up     live: database + schema + OpenSky poller (needs .env)
-#   docker compose up                    database + schema only
+#   docker compose up                    database + schema + API only
 #
 # Copy .env.example to .env for live mode. Demo mode needs no keys and no internet
 # (after the images have been built once).
@@ -57,6 +57,38 @@ services:
     env_file:
       - path: .env
         required: false
+    restart: unless-stopped
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+
+  api:
+    build: ./backend
+    command: uvicorn aerokym.api.app:app --host 0.0.0.0 --port 8000
+    environment: *backend_env
+    ports:
+      - "127.0.0.1:8000:8000"      # docs at http://localhost:8000/docs
+    restart: unless-stopped
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+
+  detect:
+    # Demo: run the detector once over the replayed day, then exit.
+    profiles: ["demo"]
+    build: ./backend
+    command: python -m aerokym.detect.run --hours 24
+    environment: *backend_env
+    depends_on:
+      replay:
+        condition: service_completed_successfully
+
+  detect-live:
+    # Live: re-run every 2 minutes over the last 6 hours.
+    profiles: ["live"]
+    build: ./backend
+    command: python -m aerokym.detect.run --hours 6 --loop 120
+    environment: *backend_env
     restart: unless-stopped
     depends_on:
       migrate:
