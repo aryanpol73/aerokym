@@ -52,6 +52,7 @@ LEFT JOIN trace_fetches f USING (icao24)
 WHERE p.source = 'opensky'
   AND p.time > now() - interval '3 hours'
   AND p.baro_alt_ft >= 20000
+  AND p.lat BETWEEN %(lamin)s AND %(lamax)s AND p.lon BETWEEN %(lomin)s AND %(lomax)s
   AND (f.fetched_at IS NULL OR f.fetched_at < now() - make_interval(mins => %(refetch)s))
 GROUP BY p.icao24
 HAVING max(p.time) > now() - make_interval(mins => %(seen)s) AND count(*) >= %(sightings)s
@@ -89,11 +90,26 @@ class AdsbLolClient:
         return r.json()
 
 
-def next_candidate(conn: psycopg.Connection) -> str | None:
-    row = conn.execute(CANDIDATE_SQL, {"refetch": REFETCH_AFTER_MIN, "seen": SEEN_WITHIN_MIN,
-                                       "sightings": MIN_SIGHTINGS}).fetchone()
+def next_candidate(conn: psycopg.Connection,
+                   bbox: tuple[float, float, float, float]) -> str | None:
+    """The aircraft seen longest in cruise inside `bbox` that we have not fetched lately."""
+    row = conn.execute(CANDIDATE_SQL, {
+        "refetch": REFETCH_AFTER_MIN, "seen": SEEN_WITHIN_MIN, "sightings": MIN_SIGHTINGS,
+        "lamin": bbox[0], "lomin": bbox[1], "lamax": bbox[2], "lomax": bbox[3]}).fetchone()
     conn.commit()
     return row[0] if row else None
+
+
+def pick_boxes(n: int, main: tuple, validation: tuple | None, every: int) -> list[tuple]:
+    """Which box the n-th aircraft should come from, with the other as fallback.
+
+    Every `every`-th aircraft is taken from the validation box (where pilot
+    reports exist to check against). If that box has no candidate the request
+    is not wasted: the main box is tried instead, and vice versa.
+    """
+    if validation is None or every <= 0:
+        return [main]
+    return [validation, main] if n % every == 0 else [main, validation]
 
 
 def mark_fetched(conn: psycopg.Connection, icao24: str, n_positions: int) -> None:
@@ -115,13 +131,20 @@ def run(settings: Settings | None = None) -> None:
           f"budget {s.adsblol_daily_requests}/day, one request every {interval:.0f}s, "
           f"two per aircraft")
     backoff = interval
+    n_aircraft = 0
     with connect_with_retry(s.database_url) as conn:
         enable_retention(conn, s.positions_retention_hours)
         while True:
             started = time.time()
             wait = interval
             try:
-                icao = next_candidate(conn)
+                n_aircraft += 1
+                icao = None
+                for box in pick_boxes(n_aircraft, s.opensky_bbox, s.validation_bbox,
+                                      s.adsblol_validation_every):
+                    icao = next_candidate(conn, box)
+                    if icao:
+                        break
                 if icao is None:
                     print("adsblol: no candidate aircraft (is the OpenSky poller running?)")
                 else:

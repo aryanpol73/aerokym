@@ -54,6 +54,22 @@ def poll_interval_s(bbox: tuple[float, float, float, float], daily_credits: int)
     return max(10.0, 86400 * credit_cost(bbox) / max(daily_credits, 1))
 
 
+def cycle_interval_s(
+    bbox: tuple[float, float, float, float],
+    validation_bbox: tuple[float, float, float, float] | None,
+    validation_every: int,
+    daily_credits: int,
+) -> float:
+    """Poll interval when a second (validation) box is polled on every Nth cycle.
+
+    Average cost per cycle = main box + validation box / N.
+    """
+    cost = float(credit_cost(bbox))
+    if validation_bbox is not None and validation_every > 0:
+        cost += credit_cost(validation_bbox) / validation_every
+    return max(10.0, 86400 * cost / max(daily_credits, 1))
+
+
 def parse_states(body: dict) -> list[Position]:
     """Convert an OpenSky /states/all response into Position rows (SI -> aviation units).
 
@@ -147,9 +163,11 @@ def run(settings: Settings | None = None) -> None:
 
     s = settings or get_settings()
     client = OpenSkyClient(s.opensky_client_id, s.opensky_client_secret)
-    interval = poll_interval_s(s.opensky_bbox, s.opensky_daily_credits)
-    print(f"opensky: bbox={s.opensky_bbox} cost={credit_cost(s.opensky_bbox)} credits/poll, "
-          f"interval={interval:.0f}s")
+    interval = cycle_interval_s(s.opensky_bbox, s.validation_bbox, s.opensky_validation_every,
+                                s.opensky_daily_credits)
+    print(f"opensky: bbox={s.opensky_bbox} every {interval:.0f}s; validation box "
+          f"{s.validation_bbox} every {s.opensky_validation_every} cycles")
+    cycle = 0
     backoff = interval
     with connect_with_retry(s.database_url) as conn:
         enable_retention(conn, s.positions_retention_hours)
@@ -158,6 +176,9 @@ def run(settings: Settings | None = None) -> None:
             wait = interval
             try:
                 rows = client.fetch_states(s.opensky_bbox)
+                cycle += 1
+                if s.validation_bbox and cycle % max(s.opensky_validation_every, 1) == 0:
+                    rows += client.fetch_states(s.validation_bbox)
                 new = insert_positions(conn, rows)
                 print(f"opensky: {len(rows)} aircraft, {new} new positions, "
                       f"credits left {client.credits_remaining}")

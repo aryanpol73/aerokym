@@ -19,6 +19,7 @@ public ADS-B data and gives no safety guidance.
 | `GET /api/airports/{icao}` | One airport: decoded METAR and TAF, wind per runway, nearby SIGMETs and pilot reports |
 | `GET /api/sigmets` | GeoJSON polygons: SIGMET hazard areas valid now, worldwide |
 | `GET /api/pireps` | GeoJSON points: pilot reports from the last `hours` (1 to 12, default 3) |
+| `GET /api/accuracy` | Daily validation against pilot reports, and the counts pooled over `days` (1 to 365, default 30) |
 | `GET /api/meta` | Method version, data freshness, what the severity numbers mean |
 | `GET /health` | Liveness check |
 
@@ -74,6 +75,18 @@ and reported nothing.
 `flight_category` in `/api/airports` is `null` in the same case.
 
 Weather responses also carry `meta.weather_attribution`.
+
+## `/api/accuracy`
+
+"Positive" means moderate or greater.
+
+| Field | Meaning |
+|---|---|
+| `runs[]` | One row per day and region: `n_pireps` (cruise turbulence reports), `n_matched` (those with a sampled aircraft within 50 km, 1000 ft and 10 minutes), `tp`, `fp`, `fn` |
+| `pooled.precision`, `pooled.recall` | Computed from the summed counts, not by averaging days. `null` when there is nothing to score |
+| `pooled.naive_precision` | What calling every matched report "moderate or greater" would score |
+| `calibration` | The one-day calibration result, kept separate because it is not independent |
+| `threshold_index` | The roughness index at which a report counts as "moderate or greater" |
 
 ## Example
 

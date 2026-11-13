@@ -19,7 +19,7 @@ a { color: var(--accent); }
 .topbar h1 { margin: 0; font-size: 18px; letter-spacing: 0.02em; }
 .tagline { color: var(--muted); font-size: 13px; flex: 1; min-width: 0;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.topbar nav { font-size: 14px; white-space: nowrap; }
+.topbar nav { font-size: 14px; white-space: nowrap; display: flex; gap: 14px; }
 
 .map { flex: 1; min-height: 0; }
 
@@ -55,6 +55,12 @@ legend { padding: 0; margin-bottom: 4px; color: var(--muted); font-size: 12px; }
 .catline { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
 .prose tr.favoured td { background: #eef7f0; }
 .prose .hint { font-size: 13px; }
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+.tile { display: flex; flex-direction: column; gap: 4px; padding: 14px; border: 1px solid var(--line);
+  border-radius: 10px; font-size: 14px; }
+.tile .big { font-size: 30px; font-weight: 650; font-variant-numeric: tabular-nums; }
+.tile .muted { font-size: 12px; }
+.scroll { overflow-x: auto; }
 .legend-row { display: flex; align-items: center; gap: 8px; padding: 2px 0; }
 .legend-row .count { margin-left: auto; color: var(--muted); font-variant-numeric: tabular-nums; }
 .swatch { display: inline-block; width: 12px; height: 12px; border-radius: 3px; flex: none;

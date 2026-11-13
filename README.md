@@ -15,9 +15,9 @@ next to official aviation weather (SIGMETs, PIREPs, METAR/TAF).
 
 ## Status
 
-Pre-alpha. Ingest, storage, a first detector, the API, the map and the airport weather
-cards work on replayed data.
-Live mode is built but has not been run end to end yet.
+Pre-alpha. Every milestone of the MVP is built and works on replayed data. Live mode
+has not been run end to end, nothing is deployed, and there are no independent
+validation days yet.
 
 | Milestone | What | State |
 |---|---|---|
@@ -27,7 +27,7 @@ Live mode is built but has not been run end to end yet.
 | M3 | H3 aggregation + API | done: [API reference](docs/api.md) |
 | M4 | Live map | done (demo data); live feed untested |
 | M5 | Weather + airport cards | done (demo data); live feed untested |
-| M6 | Accuracy page + launch | next |
+| M6 | Accuracy page + launch | validation job and page done; deploy and launch not done: [guide](docs/deploy.md) |
 
 ## Quickstart
 
@@ -44,6 +44,8 @@ serves the result. No internet or API keys needed once the images exist.
 
 - Map: http://localhost:3000
 - An airport card: http://localhost:3000/airport/VABB (Mumbai)
+- Accuracy page: http://localhost:3000/accuracy (empty in the demo: there is nothing
+  independent to score)
 - API docs: http://localhost:8000/docs
 - Hex cells for the last hour:
 
@@ -60,7 +62,11 @@ low confidence. That is the sample size, not the method.
 Live mode uses two sources together. OpenSky says which aircraft are in cruise
 over India (one request covers the country, about every 96 seconds). adsb.lol
 then supplies a dense trace for one of those aircraft at a time, two requests
-each. Official weather is refreshed from aviationweather.gov every 10 minutes. On a free adsb.lol key (1,000 requests a day) that is about 19 aircraft
+each. Official weather is refreshed from aviationweather.gov every 10 minutes.
+
+A share of that budget (every third aircraft by default) goes to a box over the
+central US, where pilot reports are dense enough to check the detector against.
+A validation job re-scores today and yesterday every hour. On a free adsb.lol key (1,000 requests a day) that is about 19 aircraft
 an hour, so the live map is a thin sample of the traffic.
 
 Copy `.env.example` to `.env`, add your OpenSky client id and secret and,
@@ -120,8 +126,20 @@ within 50 km, 1000 ft and 10 minutes):
 
 These numbers are optimistic: the method was tuned on the same day it was
 scored on. Results over India are **unvalidated**, because pilot reports
-there are too sparse to check against. A public accuracy page with daily
-numbers comes in M6.
+there are too sparse to check against.
+
+Independent checking is built in. Every hour a validation job compares the
+detector with new pilot reports over the US and stores the counts, and the
+[accuracy page](web/app/accuracy/page.tsx) (`/accuracy`, data at
+`/api/accuracy`) pools them over 30 days. It shows a warning instead of
+percentages until at least 100 reports have been scored. As of this commit it
+has no independent days.
+
+You can score any past day yourself from an Iowa State IEM PIREP archive CSV:
+
+```bash
+python -m aerokym.validate.run --date 2026-11-11 --bbox 24,-126,50,-66 --pireps-csv pireps.csv
+```
 
 ## Data and attribution
 

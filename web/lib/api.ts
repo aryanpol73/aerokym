@@ -166,3 +166,36 @@ export const HAZARD: Record<string, string> = {
   TS: "Thunderstorms", TURB: "Turbulence", ICE: "Icing", VA: "Volcanic ash",
   MTW: "Mountain wave", TC: "Tropical cyclone", DS: "Duststorm", SS: "Sandstorm",
 };
+
+// Accuracy ---------------------------------------------------------------------
+
+export interface ValidationRun {
+  date: string;
+  region: string;
+  n_pireps: number;
+  n_matched: number;
+  tp: number;
+  fp: number;
+  fn: number;
+  n_aircraft: number;
+}
+
+export interface Accuracy {
+  meta: Meta;
+  threshold_index: number;
+  pooled: {
+    days: number; n_pireps: number; n_matched: number; n_moderate_plus: number;
+    tp: number; fp: number; fn: number;
+    precision: number | null; recall: number | null; naive_precision: number | null;
+  };
+  runs: ValidationRun[];
+  calibration: {
+    date: string; region: string; match: string; n_matched: number; held_out_reports: number;
+    precision: number; recall: number; naive_precision: number; auc: number;
+    auc_interval: [number, number]; caveat: string;
+  };
+  caveats: string[];
+}
+
+export const fetchAccuracy = (days = 30, signal?: AbortSignal) =>
+  get<Accuracy>(`/api/accuracy?days=${days}`, signal);

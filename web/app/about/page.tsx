@@ -54,7 +54,8 @@ export default function About() {
         information and is far from precise.
       </p>
       <p>
-        Those numbers come from a single day and are optimistic. Over India there are almost no
+        Those numbers come from a single day and are optimistic; the{" "}
+        <Link href="/accuracy">accuracy page</Link> shows the daily checks since. Over India there are almost no
         pilot reports to check against, so results there are <strong>unvalidated</strong>.
       </p>
 
