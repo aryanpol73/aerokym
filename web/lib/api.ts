@@ -81,3 +81,88 @@ export function minutesAgo(iso: string, now = Date.now()): string {
   if (m < 60) return `${m} min ago`;
   return `${Math.floor(m / 60)} h ${m % 60} min ago`;
 }
+
+// Weather and airports ---------------------------------------------------------
+
+export type FlightCategory = "VFR" | "MVFR" | "IFR" | "LIFR";
+
+export interface AirportProps {
+  icao: string;
+  name: string;
+  city: string | null;
+  iata: string | null;
+  flight_category: FlightCategory | null;
+  obs_time: string | null;
+}
+
+export interface SigmetProps {
+  id: string;
+  hazard: string | null;
+  fir: string | null;
+  qualifier: string | null;
+  valid_from: string;
+  valid_to: string;
+  alt_lo_ft: number | null;
+  alt_hi_ft: number | null;
+  raw: string | null;
+}
+
+export interface PirepProps {
+  id: string;
+  obs_time: string;
+  alt_ft: number | null;
+  turbulence: string | null;
+  aircraft_type: string | null;
+  raw: string;
+}
+
+export type Airports = GeoJSON.FeatureCollection<GeoJSON.Point, AirportProps> & { meta: Meta };
+export type Sigmets = GeoJSON.FeatureCollection<GeoJSON.Geometry, SigmetProps> & { meta: Meta };
+export type Pireps = GeoJSON.FeatureCollection<GeoJSON.Point, PirepProps> & { meta: Meta };
+
+export interface RunwayEnd {
+  ident: string | null;
+  heading_deg: number | null;
+  status: "ok" | "calm" | "variable" | "unknown";
+  headwind_kt?: number;
+  crosswind_kt?: number;
+  crosswind_from?: "left" | "right" | "";
+  gust_crosswind_kt?: number;
+  max_crosswind_kt?: number;
+}
+
+export interface AirportCard {
+  meta: Meta & { weather_attribution: string };
+  airport: { icao: string; name: string; city: string | null; iata: string | null;
+             country: string | null; elevation_ft: number | null; lat: number; lon: number };
+  metar: { obs_time: string; raw: string; lines: string[];
+           flight_category: FlightCategory | null; wind_kt: number | null } | null;
+  taf: { issue_time: string; valid_to: string; raw: string;
+         periods: { text: string; change: string | null }[] } | null;
+  runways: { length_ft: number | null; surface: string | null; ends: RunwayEnd[] }[];
+  nearby_sigmets: { id: string; hazard: string | null; fir: string | null; valid_to: string;
+                    alt_lo_ft: number | null; alt_hi_ft: number | null; distance_km: number }[];
+  nearby_pireps: { obs_time: string; alt_ft: number | null; turbulence: string | null;
+                   raw: string; distance_km: number }[];
+}
+
+export const fetchAirports = (signal?: AbortSignal) => get<Airports>("/api/airports", signal);
+export const fetchSigmets = (signal?: AbortSignal) => get<Sigmets>("/api/sigmets", signal);
+export const fetchPireps = (signal?: AbortSignal) => get<Pireps>("/api/pireps", signal);
+export const fetchAirport = (icao: string, signal?: AbortSignal) =>
+  get<AirportCard>(`/api/airports/${encodeURIComponent(icao)}`, signal);
+
+// Conventional aviation colours for flight category. Airports are drawn as
+// ringed dots, so they are not confused with the hexagons' colours.
+export const FLIGHT_CAT: Record<FlightCategory, { label: string; color: string }> = {
+  VFR: { label: "VFR: good visual conditions", color: "#2f9e44" },
+  MVFR: { label: "MVFR: marginal", color: "#1c7ed6" },
+  IFR: { label: "IFR: low cloud or visibility", color: "#e03131" },
+  LIFR: { label: "LIFR: very low", color: "#c2255c" },
+};
+export const NO_REPORT_COLOR = "#868e96";
+
+export const HAZARD: Record<string, string> = {
+  TS: "Thunderstorms", TURB: "Turbulence", ICE: "Icing", VA: "Volcanic ash",
+  MTW: "Mountain wave", TC: "Tropical cyclone", DS: "Duststorm", SS: "Sandstorm",
+};

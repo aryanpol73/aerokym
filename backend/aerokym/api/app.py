@@ -12,12 +12,10 @@ from __future__ import annotations
 
 import time
 from collections import defaultdict, deque
-from collections.abc import Iterator
 from datetime import UTC, datetime
 from typing import Annotated, Literal
 
-import psycopg
-from fastapi import Depends, FastAPI, HTTPException, Query, Request
+from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
@@ -29,14 +27,10 @@ from aerokym.aggregate.h3cells import (
     cell_feature,
     fetch_cells,
 )
-from aerokym.config import get_settings
+from aerokym.api.deps import ATTRIBUTION, DISCLAIMER, At, Conn, _at, _meta, get_conn  # noqa: F401
+from aerokym.api.weather import router as weather_router
 from aerokym.detect.classify import LIGHT_INDEX, METHOD_VERSION, MODERATE_INDEX
 
-DISCLAIMER = (
-    "Aerokym is a research project. Not for operational use or flight planning; "
-    "it gives no safety guidance. Detections are statistical estimates from sparse public data."
-)
-ATTRIBUTION = "ADS-B data: adsb.lol, ODbL v1.0. Derived data is share-alike under ODbL."
 CACHE_SECONDS = 60
 RATE_LIMIT = 60          # requests
 RATE_WINDOW_S = 60.0     # per this many seconds, per client address
@@ -48,6 +42,7 @@ app = FastAPI(
                 f"{ATTRIBUTION}",
 )
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["GET"])
+app.include_router(weather_router)
 
 _hits: dict[str, deque[float]] = defaultdict(deque)
 
@@ -70,29 +65,6 @@ async def rate_limit_and_cache(request: Request, call_next):
     if request.method == "GET" and response.status_code == 200:
         response.headers["Cache-Control"] = f"public, max-age={CACHE_SECONDS}"
     return response
-
-
-def get_conn() -> Iterator[psycopg.Connection]:
-    # One short-lived connection per request: simple, and plenty for an API
-    # whose responses are cached. Swap for a pool if it ever shows up in profiles.
-    with psycopg.connect(get_settings().database_url, connect_timeout=5) as conn:
-        yield conn
-
-
-Conn = Annotated[psycopg.Connection, Depends(get_conn)]
-At = Annotated[datetime | None, Query(description="Reference time (ISO 8601). Default: now.")]
-
-
-def _meta(at: datetime, **extra) -> dict:
-    return {"generated_at": datetime.now(UTC).isoformat(), "at": at.isoformat(),
-            "method_version": METHOD_VERSION, "disclaimer": DISCLAIMER,
-            "attribution": ATTRIBUTION, **extra}
-
-
-def _at(at: datetime | None) -> datetime:
-    if at is None:
-        return datetime.now(UTC)
-    return at if at.tzinfo else at.replace(tzinfo=UTC)
 
 
 @app.get("/health")

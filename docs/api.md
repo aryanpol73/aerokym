@@ -15,6 +15,10 @@ public ADS-B data and gives no safety guidance.
 |---|---|
 | `GET /api/cells` | GeoJSON hexagons (H3 resolution 4, about 45 km across) with roughness severity and confidence |
 | `GET /api/events` | GeoJSON points: individual 3-minute detector windows |
+| `GET /api/airports` | GeoJSON points: airports with the flight category of their latest METAR |
+| `GET /api/airports/{icao}` | One airport: decoded METAR and TAF, wind per runway, nearby SIGMETs and pilot reports |
+| `GET /api/sigmets` | GeoJSON polygons: SIGMET hazard areas valid now, worldwide |
+| `GET /api/pireps` | GeoJSON points: pilot reports from the last `hours` (1 to 12, default 3) |
 | `GET /api/meta` | Method version, data freshness, what the severity numbers mean |
 | `GET /health` | Liveness check |
 
@@ -50,6 +54,27 @@ and reported nothing.
 | `limit` | 1 to 2000 | 500 |
 | `at` | ISO 8601 time | now |
 
+## `/api/airports/{icao}`
+
+`icao` is the 4-letter airport code, for example `VABB`. Unknown codes return
+404. All weather routes accept `at` like the others.
+
+| Field | Meaning |
+|---|---|
+| `metar.lines` | The report in plain language, one statement per line |
+| `metar.flight_category` | `VFR`, `MVFR`, `IFR` or `LIFR` (US definitions), from ceiling and visibility |
+| `metar.raw`, `taf.raw` | The original coded reports |
+| `taf.periods[].text` | Each forecast period in plain language |
+| `runways[].ends[]` | Per runway end: `headwind_kt` (negative is a tailwind), `crosswind_kt`, `crosswind_from` (`left` or `right`) |
+| `runways[].ends[].status` | `ok`, `calm`, `variable` (then only `max_crosswind_kt` is given) or `unknown` |
+| `nearby_sigmets` | SIGMETs valid now within 300 km |
+| `nearby_pireps` | Pilot reports within 200 km in the last 3 hours |
+
+`metar` is `null` when the airport has no report from the last 3 hours, and
+`flight_category` in `/api/airports` is `null` in the same case.
+
+Weather responses also carry `meta.weather_attribution`.
+
 ## Example
 
 ```bash
@@ -60,3 +85,6 @@ curl "http://localhost:8000/api/cells?minutes=60&band=FL300-390"
 
 Cells and events are derived from adsb.lol data and are published under the
 ODbL v1.0: attribute adsb.lol and Aerokym, and share derived databases alike.
+
+Weather comes from aviationweather.gov and airports from OurAirports; both are
+public domain.

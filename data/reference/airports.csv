@@ -1,0 +1,214 @@
+ident,type,name,latitude_deg,longitude_deg,elevation_ft,iso_country,municipality,iata_code
+OAIX,medium_airport,Bagram Airfield,34.946098,69.264999,4895,AF,Bagram,OAI
+OAJL,medium_airport,Jalalabad Airport,34.399799,70.498596,1814,AF,Jalalabad,JAA
+OAKB,large_airport,Kabul International Airport,34.565899,69.212303,5877,AF,Kabul,KBL
+OAKS,medium_airport,Khost International Airport,33.284605,69.80734,4204,AF,Khost,KHT
+OPBW,medium_airport,Bahawalpur Airport,29.348100662231445,71.71800231933594,392,PK,Bahawalpur,BHV
+OPCH,medium_airport,Chitral Airport,35.886213,71.799922,4920,PK,Chitral,CJL
+OPDG,medium_airport,Dera Ghazi Khan Airport,29.961000442504883,70.48590087890625,492,PK,Dera Ghazi Khan,DEA
+OPDI,medium_airport,Dera Ismael Khan Airport [IN-ACTIVE],31.909401,70.896599,594,PK,Dera Ismael Khan,DSK
+OPFA,large_airport,Faisalabad International Airport,31.364923,72.995319,591,PK,Faisalabad,LYP
+OPGT,medium_airport,Gilgit Airport,35.918800354003906,74.33360290527344,4796,PK,Gilgit,GIL
+OPIS,large_airport,Islamabad International Airport,33.549,72.82566,1761,PK,Attock,ISB
+OPJA,medium_airport,Shahbaz Air Base,28.28420066833496,68.44969940185547,185,PK,Jacobabad,JAG
+OPLA,large_airport,Allama Iqbal International Airport,31.521601,74.403603,712,PK,Lahore,LHE
+OPMA,medium_airport,Mangla Airport,33.05009841918945,73.63839721679688,902,PK,Mangla,XJM
+OPMI,medium_airport,Mianwali Air Base,32.5630989074707,71.5707015991211,690,PK,Mianwali,MWD
+OPMJ,medium_airport,Moenjodaro Airport,27.335199,68.143097,154,PK,Moenjodaro,MJD
+OPMS,medium_airport,Minhas Air Base,33.8690986633,72.4009017944,1023,PK,Kamra,ATG
+OPMT,large_airport,Multan International Airport,30.203199,71.419098,403,PK,Multan,MUX
+OPNH,medium_airport,Shaheed Benazirabad Airport,26.2194,68.390099,95,PK,Nawabashah,WNS
+OPPS,large_airport,Bacha Khan International Airport,33.9939,71.514603,1158,PK,Peshawar,PEW
+OPRK,medium_airport,Shaikh Zaid Airport,28.383899688720703,70.27960205078125,271,PK,Rahim Yar Khan,RYK
+OPRN,medium_airport,PAF Base Nur Khan (Benazir Bhutto International Airport),33.616699,73.099197,1668,PK,Rawalpindi,
+OPRQ,medium_airport,Rafiqui Air Base,30.758100509643555,72.28250122070312,492,PK,Shorkot,
+OPRS,medium_airport,Risalpur Air Base,34.08110046386719,71.97260284423828,1050,PK,Risalpur,
+OPRT,medium_airport,Rawalakot Airport,33.849701,73.798103,5479,PK,Rawalakot,RAZ
+OPSD,large_airport,Skardu International Airport,35.33866,75.538648,7316,PK,Skardu,KDU
+OPSK,medium_airport,Begum Nusrat Bhutto International Airport Sukkur,27.722,68.791702,196,PK,Sukkur,SKZ
+OPSR,medium_airport,Mushaf Air Base,32.04859924316406,72.66500091552734,614,PK,Sargodha,SGI
+OPSS,medium_airport,Saidu Sharif Airport,34.813599,72.352798,3183,PK,Saidu Sharif,SDT
+OPST,large_airport,Sialkot International Airport,32.535941,74.364623,837,PK,Sialkot,SKT
+OPSU,medium_airport,Sui Airport,28.645099639892578,69.1769027709961,763,PK,Sui,SUL
+OPZB,medium_airport,Zhob Airport,31.358400344848633,69.4636001586914,4728,PK,Fort Sandeman,PZH
+VAAH,large_airport,Sardar Vallabh Patel International Airport,23.0772,72.634697,189,IN,Ahmedabad,AMD
+VAAK,medium_airport,Akola Airport,20.698931,77.056883,999,IN,Akola,AKD
+VAAU,medium_airport,Aurangabad Airport,19.862875,75.396312,1911,IN,Aurangabad,IXU
+VABB,large_airport,Chhatrapati Shivaji Maharaj International Airport,19.088699,72.867897,39,IN,Mumbai,BOM
+VABJ,medium_airport,Bhuj Airport,23.2877998352,69.6701965332,268,IN,Bhuj,BHJ
+VABM,medium_airport,Belagavi Airport,15.8593,74.618301,2487,IN,Belgaum,IXG
+VABO,large_airport,Vadodara International Airport,22.336201,73.226303,129,IN,Vadodara,BDQ
+VABP,large_airport,Raja Bhoj International Airport,23.2875,77.337402,1711,IN,Bhopal,BHO
+VABV,medium_airport,Bhavnagar Airport,21.752199173,72.1852035522,44,IN,Bhavnagar,BHU
+VADN,medium_airport,Daman Airport,20.434401,72.843201,33,IN,Daman,NMB
+VAHB,medium_airport,Hubballi Airport,15.361084,75.082096,2171,IN,Hubballi,HBX
+VAHS,large_airport,Rajkot International Airport,22.378824,71.039391,647,IN,Rajkot,HSR
+VAID,large_airport,Devi Ahilya Bai Holkar International Airport,22.721404,75.80051,1850,IN,Indore,IDR
+VAJB,medium_airport,Jabalpur Airport,23.177799,80.052002,1624,IN,Jabalpur,JLR
+VAJM,medium_airport,Jamnagar Airport,22.465499877929688,70.01260375976562,69,IN,Jamnagar,JGA
+VAKE,medium_airport,Kandla Airport,23.1127,70.100304,96,IN,Kandla,IXY
+VAKJ,medium_airport,Khajuraho Airport,24.8172,79.918602,728,IN,Khajuraho,HJR
+VAKP,medium_airport,Kolhapur Airport,16.6647,74.289398,1996,IN,Kolhapur,KLH
+VAKS,medium_airport,Keshod Airport,21.317101,70.270401,167,IN,Keshod,IXK
+VALT,medium_airport,Murod Kond Airport,18.411501,76.464699,2136,IN,Latur,LTU
+VAND,medium_airport,Nanded Airport,19.1833,77.316704,1250,IN,Nanded,NDC
+VANP,large_airport,Dr. Babasaheb Ambedkar International Airport,21.092199,79.047203,1033,IN,Nagpur,NAG
+VAOZ,large_airport,Nashik International Airport,20.119101,73.912903,1900,IN,Nashik,ISK
+VAPO,large_airport,Pune International Airport,18.5821,73.919701,1942,IN,Pune,PNQ
+VAPR,medium_airport,Porbandar Airport,21.649524,69.656405,23,IN,Porbandar,PBD
+VARG,medium_airport,Ratnagiri Airport,17.013599,73.327797,305,IN,,RTC
+VARK,medium_airport,Rajkot Airport,22.3092,70.779503,441,IN,Rajkot,RAJ
+VARP,medium_airport,Swami Vivekananda Airport,21.180401,81.7388,1041,IN,Raipur,RPR
+VASD,large_airport,Shirdi International Airport,19.689211,74.373655,1926,IN,Kakadi,SAG
+VASL,medium_airport,Solapur Airport,17.6280002594,75.93479919430001,1584,IN,Solapur,SSE
+VASU,large_airport,Surat International Airport,21.115531,72.743251,16,IN,Surat,STV
+VAUD,medium_airport,Maharana Pratap Airport,24.617700576799997,73.89610290530001,1684,IN,Udaipur,UDR
+VCBI,large_airport,Bandaranaike International Colombo Airport,7.180759906768799,79.88410186767578,30,LK,Colombo,CMB
+VCCA,medium_airport,Anuradhapura Airport,8.301542,80.42848,324,LK,Anuradhapura,ACJ
+VCCB,medium_airport,Batticaloa International Airport,7.705073,81.677163,20,LK,Batticaloa,BTC
+VCCC,large_airport,Colombo Ratmalana International Airport,6.821638,79.885859,22,LK,Colombo,RML
+VCCG,medium_airport,Ampara Airport,7.336745,81.623869,150,LK,Ampara,ADP
+VCCH,medium_airport,Hingurakgoda Air Force Base,8.04981,80.9814,170,LK,Polonnaruwa Town,HIM
+VCCJ,large_airport,Jaffna International Airport,9.79233,80.070099,33,LK,Jaffna,JAF
+VCCT,medium_airport,China Bay Airport,8.539159,81.18128,6,LK,Trincomalee,TRR
+VCRI,medium_airport,Mattala Rajapaksa International Airport,6.283878,81.124163,157,LK,Mattala,HRI
+VEAN,medium_airport,Along Airport,28.17530059814453,94.802001953125,900,IN,,IXV
+VEAT,medium_airport,Agartala - Maharaja Bir Bikram Airport,23.886999,91.240402,46,IN,Agartala,IXA
+VEBD,large_airport,Bagdogra Airport,26.6812,88.328598,412,IN,Siliguri,IXB
+VEBI,medium_airport,Shillong Airport,25.70359992980957,91.97869873046875,2910,IN,Shillong,SHL
+VEBN,large_airport,Lal Bahadur Shastri International Airport,25.452171,82.862549,266,IN,Varanasi,VNS
+VEBS,large_airport,Biju Patnaik International Airport,20.251021,85.814747,138,IN,Bhubaneswar,BBI
+VEBU,medium_airport,Bilaspur Airport,21.9884,82.111,899,IN,Bilaspur,PAB
+VECC,large_airport,Netaji Subhash Chandra Bose International Airport,22.654012,88.44765,16,IN,Kolkata,CCU
+VEDB,medium_airport,Dhanbad Airport,23.834,86.425301,847,IN,,DBD
+VEDG,medium_airport,Kazi Nazrul Islam Airport,23.6225,87.243,300,IN,Durgapur,RDP
+VEDH,medium_airport,Darbhanga Airport,26.192801,85.916901,156,IN,Darbhanga,DBR
+VEGK,medium_airport,Gorakhpur Airport,26.739700317399997,83.4496994019,259,IN,Gorakhpur,GOP
+VEGT,large_airport,Lokpriya Gopinath Bordoloi International Airport,26.106654,91.585226,162,IN,Guwahati,GAU
+VEGY,medium_airport,Gaya Airport,24.744301,84.951202,380,IN,Gaya,GAY
+VEHX,medium_airport,Hashimara Air Force Station,26.698299,89.369102,340,IN,Jalpaiguri,
+VEIM,large_airport,Bir Tikendrajit International Airport,24.76,93.896698,2540,IN,Imphal,IMF
+VEJS,medium_airport,Sonari Airport,22.813706,86.168981,475,IN,Jamshedpur,IXW
+VEJT,medium_airport,Jorhat Airport,26.730456,94.175416,311,IN,Jorhat,JRH
+VEKI,medium_airport,Kushinagar International Airport,26.776534,83.889214,266,IN,Kushinagar,KBK
+VEKR,medium_airport,Kailashahar Airport,24.308657,92.00768,79,IN,Kailashahar,IXH
+VEKU,medium_airport,Silchar Airport,24.9129009247,92.97869873050001,352,IN,Silchar,IXS
+VELP,medium_airport,Lengpui Airport,23.840599,92.619698,1398,IN,Aizawl (Lengpui),AJL
+VELR,medium_airport,Lilabari North Lakhimpur Airport,27.295682,94.097266,330,IN,Lilabari,IXI
+VEMN,medium_airport,Dibrugarh Airport,27.4839000702,95.0168991089,362,IN,Dibrugarh,DIB
+VEMR,medium_airport,Dimapur Airport,25.883899688699998,93.77110290530001,487,IN,Dimapur,DMU
+VEMZ,medium_airport,Muzaffarpur Airport,26.119101,85.313698,174,IN,Muzaffarpur,MZU
+VEPH,medium_airport,Panagarh Air Force Station,23.474300384499998,87.4274978638,240,IN,,
+VEPT,medium_airport,Jay Prakash Narayan Airport,25.591299,85.087997,170,IN,Patna,PAT
+VERC,medium_airport,Birsa Munda Airport,23.314300537100003,85.3217010498,2148,IN,Ranchi,IXR
+VERK,medium_airport,Rourkela Airport,22.256571,84.815193,659,IN,Rourkela,RRK
+VETZ,medium_airport,Tezpur Airport,26.7091007232666,92.78469848632812,240,IN,,TEZ
+VEUK,medium_airport,Utkela Airport,20.097778,83.183333,685,IN,Bhawanipatna,UKE
+VEVZ,medium_airport,INS Dega Airport (visakhapatnam international airport),17.723506,83.227729,15,IN,Visakhapatnam,
+VEZO,medium_airport,Ziro Airport,27.588301,93.828102,5403,IN,Ziro,ZER
+VGBR,medium_airport,Barisal Airport,22.801001,90.301201,23,BD,Barisal,BZL
+VGCB,medium_airport,Cox's Bazar Airport,21.457517,91.963263,12,BD,Cox's Bazar,CXB
+VGEG,large_airport,Shah Amanat International Airport,22.249599,91.813301,12,BD,Chattogram (Chittagong),CGP
+VGHS,large_airport,Hazrat Shahjalal International Airport,23.843347,90.397783,30,BD,Dhaka,DAC
+VGIS,medium_airport,Ishurdi Airport,24.1525,89.0494,45,BD,Ishurdi,IRD
+VGJR,medium_airport,Jessore Airport,23.1838,89.160797,20,BD,Jashore (Jessore),JSR
+VGRJ,medium_airport,Shah Makhdum Airport,24.437201,88.616501,64,BD,Rajshahi,RJH
+VGSD,medium_airport,Saidpur Airport,25.759199,88.908897,125,BD,Saidpur,SPD
+VGSY,large_airport,Osmany International Airport,24.963993,91.864749,50,BD,Sylhet,ZYL
+VIAG,medium_airport,Agra Airport / Agra Air Force Station,27.157975,77.961025,551,IN,Agra,AGR
+VIAL,medium_airport,Prayagraj Airport,25.4401,81.733902,322,IN,Allahabad,IXD
+VIAM,medium_airport,Ambala Air Force Station,30.368099,76.816704,909,IN,Ambala,
+VIAR,large_airport,Sri Guru Ram Das Ji International Airport,31.7096,74.797302,756,IN,Amritsar,ATQ
+VIBK,medium_airport,Nal Airport,28.070601,73.207199,750,IN,Bikaner,BKB
+VIBR,medium_airport,Kullu Manali Airport,31.876699,77.154404,3573,IN,Bhuntar,KUU
+VIBT,medium_airport,Bhatinda Air Force Station,30.2701,74.755798,662,IN,,BUP
+VIBY,medium_airport,Bareilly Air Force Station,28.4221,79.450798,580,IN,Bareilly,BEK
+VICG,large_airport,Shaheed Bhagat Singh International Airport,30.6735,76.788498,1012,IN,Chandigarh,IXC
+VICX,medium_airport,Kanpur Airport,26.404301,80.410103,410,IN,Kanpur,KNU
+VIDD,medium_airport,Safdarjung Airport,28.585453,77.203563,705,IN,New Delhi,
+VIDN,medium_airport,Dehradun Jolly Grant Airport,30.189243,78.176651,1831,IN,Dehradun (Jauligrant),DED
+VIDP,large_airport,Indira Gandhi International Airport,28.55563,77.09519,777,IN,New Delhi,DEL
+VIGG,medium_airport,Kangra Airport,32.164902,76.263018,2525,IN,Kangra,DHM
+VIGR,medium_airport,Gwalior Airport,26.29330062866211,78.22779846191406,617,IN,Gwalior,GWL
+VIHR,large_airport,Maharaja Agrasen International Airport,29.186065,75.74142,700,IN,Hisar,HSS
+VIHX,large_airport,Halwara International Airport,30.748501,75.629799,790,IN,Halwara,HWR
+VIJO,medium_airport,Jodhpur Airport,26.251100540161133,73.04889678955078,717,IN,Jodhpur,JDH
+VIJP,large_airport,Jaipur International Airport,26.8242,75.812202,1263,IN,Jaipur,JAI
+VIJR,medium_airport,Jaisalmer Airport,26.8887,70.864998,751,IN,,JSA
+VIJU,medium_airport,Jammu Airport,32.688849,74.838152,996,IN,Jammu,IXJ
+VIKG,medium_airport,Kishangarh Airport Ajmer,26.591007,74.812956,,IN,Ajmer (Kishangarh),KQH
+VIKO,medium_airport,Kota Airport,25.160200119,75.84559631350001,896,IN,Kota,KTU
+VILD,medium_airport,Ludhiana Airport,30.854700088500977,75.95259857177734,834,IN,,LUH
+VILH,medium_airport,Leh Kushok Bakula Rimpochee Airport,34.135899,77.546501,10682,IN,Leh,IXL
+VILK,large_airport,Chaudhary Charan Singh International Airport,26.760599,80.889297,410,IN,Lucknow,LKO
+VIMB,medium_airport,Moradabad Airport,28.81746,78.92187,637,IN,Moradabad,MZS
+VIPK,medium_airport,Pathankot Airport,32.233611,75.634444,1017,IN,Pathankot,IXP
+VIPT,medium_airport,Pantnagar Airport,29.0334,79.473701,769,IN,Pantnagar,PGH
+VISA,medium_airport,Sirsa Air Force Station,29.5606,75.006104,650,IN,,
+VISR,large_airport,Srinagar International Airport,33.987099,74.7742,5429,IN,Srinagar,SXR
+VIUX,medium_airport,Udhampur Air Force Station,32.902152,75.155709,2066,IN,Udhampur,
+VNBW,large_airport,Gautam Buddha International Airport,27.504636,83.410381,358,NP,Siddharthanagar (Bhairahawa),BWA
+VNJP,medium_airport,Janakpur Airport,26.708799,85.922401,256,NP,Janakpur,JKR
+VNKT,large_airport,Tribhuvan International Airport,27.6966,85.3591,4390,NP,Kathmandu,KTM
+VNLK,medium_airport,Tenzing-Hillary Airport,27.686768,86.729479,9380,NP,Lukla,LUA
+VNNG,medium_airport,Nepalgunj Airport,28.1036,81.667,540,NP,Nepalgunj,KEP
+VNPK,medium_airport,Pokhara Domestic Airport,28.200621,83.981203,2712,NP,Pokhara,PKR
+VNTJ,medium_airport,Taplejung Airport,27.3509,87.69525,7990,NP,Taplejung,TPJ
+VNVT,medium_airport,Biratnagar Airport,26.48150062561035,87.26399993896484,236,NP,Biratnagar,BIR
+VOAT,medium_airport,Agatti Airport,10.8237,72.176003,14,IN,Agatti,AGX
+VOBG,medium_airport,HAL Airport,12.95,77.668198,2912,IN,Bangalore,
+VOBI,medium_airport,Bellary Airport,15.162799835205078,76.88279724121094,30,IN,Bellary,BEP
+VOBL,large_airport,Kempegowda International Airport Bengaluru,13.1979,77.706299,3000,IN,Bengaluru,BLR
+VOBR,medium_airport,Bidar Airport / Bidar Air Force Station,17.9081,77.487099,2178,IN,Bidar,IXX
+VOBZ,large_airport,Vijayawada International Airport,16.530011,80.804888,82,IN,Vijayawada,VGA
+VOCB,large_airport,Coimbatore International Airport,11.03,77.043404,1324,IN,Coimbatore,CJB
+VOCI,large_airport,Cochin International Airport,10.151047,76.400838,30,IN,Kochi,COK
+VOCL,large_airport,Calicut International Airport,11.135996,75.955152,342,IN,Calicut,CCJ
+VOCP,medium_airport,Kadapa Airport,14.513154,78.769183,430,IN,Kadapa,CDP
+VOCX,medium_airport,Car Nicobar Air Force Base,9.153056,92.819273,5,IN,IAF Camp,CBD
+VODG,medium_airport,Dundigul Air Force Academy,17.627199173,78.4033966064,2013,IN,Hyderabad,
+VOGA,large_airport,Manohar International Airport,15.744257,73.860625,552,IN,Mopa,GOX
+VOGO,large_airport,Goa Dabolim International Airport,15.380062,73.833328,150,IN,Vasco da Gama,GOI
+VOHS,large_airport,Rajiv Gandhi International Airport,17.231318,78.429855,2024,IN,Hyderabad,HYD
+VOHY,medium_airport,Begumpet Airport,17.4531,78.467598,1742,IN,Hyderabad,BPM
+VOKN,large_airport,Kannur International Airport,11.916343,75.544979,330,IN,Kannur,CNN
+VOKU,medium_airport,Kurnool Airport,15.716288,78.16923,920,IN,Orvakal,KJB
+VOMD,medium_airport,Madurai Airport,9.83450984955,78.09339904790001,459,IN,Madurai,IXM
+VOML,large_airport,Mangaluru International Airport,12.95471,74.886812,337,IN,Mangaluru,IXE
+VOMM,large_airport,Chennai International Airport,12.990005,80.169296,52,IN,Chennai,MAA
+VOMY,medium_airport,Mysore Airport,12.229751,76.653683,2349,IN,Mysore,MYQ
+VOPB,large_airport,Veer Savarkar International Airport / INS Utkrosh,11.640194,92.72902,13,IN,Port Blair,IXZ
+VOPC,medium_airport,Pondicherry Airport,11.968,79.812,134,IN,Puducherry (Pondicherry),PNY
+VOPN,medium_airport,Sri Sathya Sai Airport,14.1492996216,77.7910995483,1558,IN,Puttaparthi,PUT
+VORY,medium_airport,Rajahmundry Airport,17.105799,81.813204,151,IN,Madhurapudi,RJA
+VOSM,medium_airport,Salem Airport,11.78330039978,78.06559753418,1008,IN,Salem,SXV
+VOTP,large_airport,Tirupati International Airport,13.631988,79.539869,350,IN,Tirupati,TIR
+VOTR,large_airport,Tiruchirappalli International Airport,10.762915,78.717741,288,IN,Tiruchirappalli,TRZ
+VOTV,large_airport,Thiruvananthapuram International Airport,8.481889,76.920029,15,IN,Thiruvananthapuram,TRV
+VOVI,large_airport,Alluri Sitarama Raju International Airport (Vizag),17.971512,83.503617,188,IN,Visakhapatnam,VTZ
+VQGP,medium_airport,Gelephu Airport,26.88456,90.46412,980,BT,Gelephu,GLU
+VQPR,large_airport,Paro International Airport,27.4032,89.424599,7364,BT,Paro,PBH
+VRMH,large_airport,Hanimaadhoo International Airport,6.743235,73.167072,4,MV,Haa Dhaalu Atoll,HAQ
+VTCH,medium_airport,Mae Hong Son Airport,19.3013,97.9758,929,TH,Mae Hong Son,HGN
+VYHH,medium_airport,Heho Airport,20.74714,96.792029,3858,MM,Heho,HEH
+VYKP,medium_airport,Kyaukpyu Airport,19.42639923095703,93.53479766845703,20,MM,Kyaukpyu,KYP
+VYLK,medium_airport,Loikaw Airport,19.691499710083008,97.21479797363281,2940,MM,Loikaw,LIW
+VYLS,medium_airport,Lashio Airport,22.9778995513916,97.752197265625,2450,MM,Lashio,LSH
+VYMD,large_airport,Mandalay International Airport,21.702199935913086,95.97789764404297,300,MM,Mandalay,MDL
+VYMK,medium_airport,Myitkyina Airport,25.3836,97.351898,475,MM,Myitkyina,MYT
+VYML,medium_airport,Meiktila Air Base,20.88640022277832,95.89279174804688,699,MM,Meiktila,
+VYMO,medium_airport,Momeik Airport,23.092500686645508,96.64530181884766,600,MM,,MOE
+VYNP,medium_airport,Nampong Air Base,25.354400634799998,97.2951965332,459,MM,Myitkyina,
+VYNS,medium_airport,Namsang Airport,20.890499114990234,97.73590087890625,3100,MM,Namsang,NMS
+VYNT,large_airport,Nay Pyi Taw International Airport,19.623501,96.200996,302,MM,Naypyitaw,NYT
+VYPT,medium_airport,Putao Airport,27.32990074157715,97.42630004882812,1500,MM,Putao,PBU
+VYST,medium_airport,Shante Air Base,20.941699981689453,95.91449737548828,630,MM,Meiktila,
+VYSW,medium_airport,Sittwe Airport,20.133165,92.870693,27,MM,Sittwe,AKY
+VYTD,medium_airport,Thandwe Airport,18.4606990814209,94.30010223388672,20,MM,Thandwe,SNW
+VYYY,large_airport,Yangon International Airport,16.907300949099998,96.1332015991,109,MM,Yangon,RGN
+ZLYS,medium_airport,Yushu Batang Airport,32.836389,97.036389,12816,CN,Yushu (Batang),YUS
+ZUAL,medium_airport,Ngari Gunsa Airport,32.09794,80.053971,14022,CN,Shiquanhe,NGQ
+ZUBD,medium_airport,Qamdo Bangda Airport,30.553600311279297,97.1082992553711,14219,CN,Bangda,BPX
+ZULS,large_airport,Lhasa Gonggar International Airport,29.298001,90.911951,11713,CN,Shannan (Gonggar),LXA
+ZUNZ,medium_airport,Nyingchi Mainling Airport,29.303301,94.335297,9675,CN,Nyingchi (Mainling),LZY
+ZURK,large_airport,Xigaze Peace Airport / Shigatse Air Base,29.350876,89.299157,12408,CN,Xigazê (Samzhubzê),RKZ
