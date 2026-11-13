@@ -9,9 +9,9 @@ documentation and must be re-checked before launch.
 | adsb.lol REST API | Dense per-aircraft traces in live mode (`/1/trace/full` and `/1/trace/recent`) | Published tiers: 500 requests/day without a key, 1,000 with a free adhoc key, 7,200 for feeders. Measured: a burst limit as well (HTTP 429 after about 10 quick requests). Key goes in the `x-api-key` header. | ODbL v1.0: attribute adsb.lol; derived databases are share-alike |
 | adsb.lol `globe_history` | Detector calibration, validation, demo replay | Daily archives on GitHub releases, several GB per day | ODbL v1.0 |
 | OpenSky REST API | Backup live feed, cross-check | Measured: about 400 credits/day anonymous, 4 credits per India-sized call. 4,000 credits/day when registered. | Research and non-commercial use; attribution required |
-| aviationweather.gov Data API | METAR, TAF, PIREP, SIGMET | Public, no key | US government, public domain |
+| aviationweather.gov Data API | METAR, TAF, PIREP, international SIGMET | Public, no key. We make 4 requests every 10 minutes. | US government, public domain |
 | Iowa State IEM PIREP archive | Historical PIREPs for calibration (aviationweather.gov only serves recent ones) | CSV by date range, no key | Public archive of US government reports; credit IEM |
-| OurAirports | Airports and runway headings | CSV download | Public domain |
+| OurAirports | Airports and runway headings | CSV download. A subset (213 medium and large airports in the India box) is bundled in `data/reference/`. | Public domain |
 
 Not used: adsb.fi open data (personal, non-commercial only) and any paid API.
 
@@ -35,3 +35,10 @@ needs, `recent` for the present.
 
 The basemap comes from OpenFreeMap (no key). If it cannot be reached, the map
 falls back to a plain background and still draws the cells.
+
+## aviationweather.gov coverage over India (measured 12 Nov 2026)
+
+One request for the India box returned METARs for 55 stations and TAFs for 88.
+Of the 213 bundled airports, 49 had a current report. The PIREP request
+returned nothing: pilot reports are effectively absent over India. SIGMETs are
+fetched worldwide (about 120 at a time).

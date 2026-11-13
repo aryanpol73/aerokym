@@ -73,6 +73,45 @@ services:
       migrate:
         condition: service_completed_successfully
 
+  airports:
+    # Loads the bundled airport and runway reference data, then exits.
+    build: ./backend
+    command: python -m aerokym.ingest.ourairports load
+    environment:
+      <<: *backend_env
+      AEROKYM_REFERENCE_DIR: /data/reference
+    volumes:
+      - ./data:/data:ro
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+
+  weather-demo:
+    # Demo: a stored weather snapshot, re-timed to now. No internet needed.
+    profiles: ["demo"]
+    build: ./backend
+    command: python -m aerokym.ingest.awc --load /data/demo/weather.json --shift-to-now --reset
+    environment: *backend_env
+    volumes:
+      - ./data:/data:ro
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+
+  weather:
+    # Live: refresh official weather every 10 minutes.
+    profiles: ["live"]
+    build: ./backend
+    command: python -m aerokym.ingest.awc --loop 600
+    environment: *backend_env
+    env_file:
+      - path: .env
+        required: false
+    restart: unless-stopped
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+
   web:
     build: ./web
     ports:

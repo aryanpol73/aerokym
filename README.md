@@ -15,7 +15,8 @@ next to official aviation weather (SIGMETs, PIREPs, METAR/TAF).
 
 ## Status
 
-Pre-alpha. Ingest, storage, a first detector, the API and the map work on replayed data.
+Pre-alpha. Ingest, storage, a first detector, the API, the map and the airport weather
+cards work on replayed data.
 Live mode is built but has not been run end to end yet.
 
 | Milestone | What | State |
@@ -25,8 +26,8 @@ Live mode is built but has not been run end to end yet.
 | M2 | Roughness detector, calibrated against PIREPs | done: [method and results](docs/method.md) |
 | M3 | H3 aggregation + API | done: [API reference](docs/api.md) |
 | M4 | Live map | done (demo data); live feed untested |
-| M5 | Weather + airport cards | next |
-| M6 | Accuracy page + launch | |
+| M5 | Weather + airport cards | done (demo data); live feed untested |
+| M6 | Accuracy page + launch | next |
 
 ## Quickstart
 
@@ -42,6 +43,7 @@ replays a bundled sample of 50 real flights from 11 Nov 2026 (25 over India,
 serves the result. No internet or API keys needed once the images exist.
 
 - Map: http://localhost:3000
+- An airport card: http://localhost:3000/airport/VABB (Mumbai)
 - API docs: http://localhost:8000/docs
 - Hex cells for the last hour:
 
@@ -49,13 +51,16 @@ serves the result. No internet or API keys needed once the images exist.
 curl "http://localhost:8000/api/cells?minutes=60"
 ```
 
+The demo also loads a stored weather snapshot (METAR, TAF and SIGMETs from
+12 Nov 2026), re-timed to now, and 213 airports in and around India.
+
 With only 50 aircraft, most demo cells rest on a single aircraft and carry
 low confidence. That is the sample size, not the method.
 
 Live mode uses two sources together. OpenSky says which aircraft are in cruise
 over India (one request covers the country, about every 96 seconds). adsb.lol
 then supplies a dense trace for one of those aircraft at a time, two requests
-each. On a free adsb.lol key (1,000 requests a day) that is about 19 aircraft
+each. Official weather is refreshed from aviationweather.gov every 10 minutes. On a free adsb.lol key (1,000 requests a day) that is about 19 aircraft
 an hour, so the live map is a thin sample of the traffic.
 
 Copy `.env.example` to `.env`, add your OpenSky client id and secret and,
@@ -91,6 +96,16 @@ data has one every ~20 seconds in cruise, so Aerokym uses a coarser
    normal for that aircraft; 1.6 or more is labelled "moderate or greater".
 
 Full description, formulas and limits: [docs/method.md](docs/method.md).
+
+## Airport weather
+
+Click an airport dot on the map for its card: the latest METAR and TAF in
+plain language, and the headwind and crosswind on each runway computed from
+the reported wind and the runway's true heading. Dots are coloured by flight
+category (VFR, MVFR, IFR, LIFR, using the US definitions); grey means no
+report in the last 3 hours. SIGMET hazard areas and pilot reports are separate
+map layers. Pilot reports are rare over India, so that layer is usually empty
+there.
 
 ## Accuracy
 
