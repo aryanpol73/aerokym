@@ -116,6 +116,7 @@ export default function Home() {
         <h1>Aerokym</h1>
         <span className="tagline">Rough air, inferred from signals planes already broadcast</span>
         <nav>
+          <Link href="/accuracy">Accuracy</Link>
           <Link href="/about">How it works</Link>
         </nav>
       </header>
@@ -314,7 +315,7 @@ export default function Home() {
       <footer className="disclaimer">
         Research project. <strong>Not for flight planning or any operational use.</strong>{" "}
         Estimates from sparse public ADS-B data; unvalidated outside the US.{" "}
-        <Link href="/about">Details</Link>
+        <Link href="/accuracy">Accuracy</Link> · <Link href="/about">Details</Link>
       </footer>
     </main>
   );

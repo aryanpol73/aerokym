@@ -27,6 +27,7 @@ from aerokym.aggregate.h3cells import (
     cell_feature,
     fetch_cells,
 )
+from aerokym.api.accuracy import router as accuracy_router
 from aerokym.api.deps import ATTRIBUTION, DISCLAIMER, At, Conn, _at, _meta, get_conn  # noqa: F401
 from aerokym.api.weather import router as weather_router
 from aerokym.detect.classify import LIGHT_INDEX, METHOD_VERSION, MODERATE_INDEX
@@ -43,6 +44,7 @@ app = FastAPI(
 )
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["GET"])
 app.include_router(weather_router)
+app.include_router(accuracy_router)
 
 _hits: dict[str, deque[float]] = defaultdict(deque)
 

@@ -112,6 +112,20 @@ services:
       migrate:
         condition: service_completed_successfully
 
+  validate:
+    # Live: every hour, re-score today and yesterday against pilot reports.
+    profiles: ["live"]
+    build: ./backend
+    command: python -m aerokym.validate.run --loop 3600
+    environment: *backend_env
+    env_file:
+      - path: .env
+        required: false
+    restart: unless-stopped
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+
   web:
     build: ./web
     ports:

@@ -37,8 +37,13 @@ def ts(epoch) -> datetime:
 
 
 def fetch_snapshot(bbox: tuple[float, float, float, float],
-                   http: httpx.Client | None = None) -> dict:
-    """One fetch of everything, as plain JSON (also the demo snapshot format)."""
+                   http: httpx.Client | None = None,
+                   pirep_bbox: tuple[float, float, float, float] | None = None) -> dict:
+    """One fetch of everything, as plain JSON (also the demo snapshot format).
+
+    `pirep_bbox` adds pilot reports from a second box: the validation region,
+    where reports are dense enough to measure the detector against.
+    """
     http = http or httpx.Client(timeout=60, headers={"User-Agent": USER_AGENT})
     box = ",".join(str(x) for x in bbox)
 
@@ -52,7 +57,8 @@ def fetch_snapshot(bbox: tuple[float, float, float, float],
         "metars": get("metar", bbox=box),
         "tafs": get("taf", bbox=box),
         "sigmets": get("isigmet"),
-        "pireps": get("pirep", bbox=box, age=3),
+        "pireps": get("pirep", bbox=box, age=3) + (
+            get("pirep", bbox=",".join(str(x) for x in pirep_bbox), age=3) if pirep_bbox else []),
     }
 
 
@@ -235,7 +241,8 @@ def main() -> None:
         while True:
             t0 = time.time()
             try:
-                print("awc:", store(conn, fetch_snapshot(s.opensky_bbox)))
+                print("awc:", store(conn, fetch_snapshot(s.opensky_bbox,
+                                                         pirep_bbox=s.validation_bbox)))
             except (httpx.HTTPError, ValueError) as e:
                 # Weather is not critical: skip this cycle and try again next time.
                 conn.rollback()

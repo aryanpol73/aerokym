@@ -93,6 +93,19 @@ that they fire on 25% and 10% of smooth reports, then scored on the other 236:
 Held-out AUC for moderate-or-worse against smooth: 0.79 (79 vs 52 reports).
 The shipped thresholds (1.22 and 1.60) are refitted on all smooth reports.
 
+## Ongoing validation
+
+`backend/aerokym/validate/run.py` repeats the 50 km comparison every day on
+whatever the live system sampled over the validation box (central US by
+default) and stores the counts in `validation_runs`. The accuracy page pools
+those counts. Unlike the calibration above, these days are independent: the
+thresholds are fixed before the data arrives.
+
+Run on the 50 bundled demo flights for 11 Nov 2026 as a pipeline check, it
+scored 16 of 1,614 reports (3 hits, 0 false alarms, 5 misses). That is far too
+few to mean anything, and it is the calibration day, so it is not shown on the
+accuracy page.
+
 ## What this does and does not show
 
 - The index carries real information about turbulence that pilots report, and
